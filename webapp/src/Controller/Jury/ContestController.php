@@ -561,6 +561,7 @@ class ContestController extends BaseController
             $deletedProblems = $getDeletedEntities($contest->getProblems(), 'getProbid');
 
             $this->assetUpdater->updateAssets($contest);
+            $contest->processContestProblemset();
             $this->saveEntity($contest, $contest->getCid(), false);
 
             // TODO: cascade deletes. Maybe use getDependentEntities()?
@@ -654,6 +655,7 @@ class ContestController extends BaseController
                     foreach ($contest->getProblems() as $problem) {
                         $contest->removeProblem($problem);
                     }
+                    $contest->processContestProblemset();
                     $this->em->persist($contest);
                     $this->em->flush();
 
